@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://orderEdit.caption"
+        focusComponent="form"
+        messagesPack="com.sample.shops.web.screens.order">
+    <data>
+        <instance id="orderDc"
+                  class="com.sample.shops.entity.Order">
+            <view extends="_local">
+                <property name="customer" view="_minimal"/>
+                <property name="items" view="_minimal">
+                    <property name="productId"/>
+                    <property name="product" view="_minimal"/>
+                    <property name="count"/>
+                </property>
+            </view>
+            <loader/>
+            <collection id="itemsDc" property="items"/>
+        </instance>
+        <collection id="productsDc" class="com.sample.prods.entity.Product">
+            <view extends="_minimal">
+                <property name="category" view="_minimal"/>
+            </view>
+            <loader id="productsDl">
+                <query>
+                    <![CDATA[select e from prods_Product e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="customersDc" class="com.sample.shops.entity.Customer">
+            <view extends="_minimal"/>
+            <loader id="customersDl">
+                <query>
+                    <![CDATA[select e from shops_Customer e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="orderDc">
+            <column width="350px">
+                <textField id="totalField" property="total"/>
+                <lookupField id="customerField" property="customer" optionsContainer="customersDc">
+                </lookupField>
+            </column>
+        </form>
+        <groupBox id="itemsBox" caption="msg://com.sample.shops.entity/Order.items">
+            <table id="itemsTable" dataContainer="itemsDc" width="100%" height="200px">
+                <actions>
+                    <action id="create" type="create"/>
+                    <action id="edit" type="edit"/>
+                    <action id="remove" type="remove"/>
+                </actions>
+                <columns>
+                    <column id="product"/>
+                    <column id="product.category"/>
+                    <column id="count"/>
+                </columns>
+                <buttonsPanel>
+                    <button action="itemsTable.create"/>
+                    <button action="itemsTable.edit"/>
+                    <button action="itemsTable.remove"/>
+                </buttonsPanel>
+            </table>
+        </groupBox>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

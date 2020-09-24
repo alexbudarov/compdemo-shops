@@ -1,0 +1,8 @@
+-- begin SHOPS_ORDER
+alter table SHOPS_ORDER add constraint FK_SHOPS_ORDER_ON_CUSTOMER foreign key (CUSTOMER_ID) references SHOPS_CUSTOMER(ID)^
+create index IDX_SHOPS_ORDER_ON_CUSTOMER on SHOPS_ORDER (CUSTOMER_ID)^
+-- end SHOPS_ORDER
+-- begin SHOPS_ORDER_ITEM
+alter table SHOPS_ORDER_ITEM add constraint FK_SHOPS_ORDER_ITEM_ON_ORDER foreign key (ORDER_ID) references SHOPS_ORDER(ID)^
+create index IDX_SHOPS_ORDER_ITEM_ON_ORDER on SHOPS_ORDER_ITEM (ORDER_ID)^
+-- end SHOPS_ORDER_ITEM

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context">
+
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="com.sample.shops"/>
+    <bean id="cubaDataSource_products" class="com.haulmont.cuba.core.sys.CubaDataSourceFactoryBean">
+        <property name="storeName" value="products"/>
+    </bean>
+    <bean id="entityManagerFactory_products" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          lazy-init="false">
+        <property name="persistenceXmlLocation" value="file:${cuba.dataDir}/products-persistence.xml"/>
+        <property name="dataSource" ref="cubaDataSource_products"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+    </bean>
+    <bean id="transactionManager_products" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory_products"/>
+        <property name="dataSource" ref="cubaDataSource_products"/>
+        <qualifier type="org.springframework.beans.factory.annotation.Qualifier" value="products"/>
+    </bean>
+
+</beans>
